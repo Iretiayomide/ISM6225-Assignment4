@@ -33,9 +33,92 @@ namespace ISM6225_Assignment4.Controllers
             }
             return View(fishingAreas);
         }
-
         
+        public List<Waterbody> GetChart(string state)
 
+    {
+
+       public IActionResult Chart(string waterbody)
+
+    {
+
+      //The Chart action calls the GetChart method that returns all the waterbodies in a county/town.
+
+      ViewBag.dbSuccessChart = 0;
+
+      List<Waterbody> waterbodies = new List<Waterbody>();
+
+      if (waterbody != null)
+
+      {
+
+        waterbodies = GetChart(waterbody);
+
+      }
+
+      FishingAreasWaterbodies fishingareaswaterbodies = getFishingAreasWaterbodiesModel(waterbodies);
+
+      return View(FishingAreasWaterbodies);
+
+    }  
+
+      // string to specify information to be retrieved from the API
+
+      string FishingAreas_API_PATH = BASE_URL  + town + "/batch?types=chart&range=1y";
+
+      // initialize objects needed to gather data
+
+      string charts = "";
+
+      List<Waterbody> Waterbodies = new List<Waterbody>();
+
+      httpClient.BaseAddress = new Uri(FishingAreas_API_PATH);
+
+
+      // connect to the API and obtain the response
+
+      HttpResponseMessage response = httpClient.GetAsync(FishingAreas_API_PATH).GetAwaiter().GetResult();
+
+      if (response.IsSuccessStatusCode)
+
+      {
+
+        charts = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+      }
+
+
+        if (!charts.Equals(""))
+
+      {
+
+        ChartRoot root = JsonConvert.DeserializeObject<ChartRoot>(charts,
+
+          new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+        Waterbodies = root.chart.ToList();
+
+      }
+
+    }
+      
+      public IActionResult Refresh(string tableToDel)
+
+    {
+
+      ClearTables(tableToDel);
+
+      Dictionary<string, int> tableCount = new Dictionary<string, int>();
+
+      tableCount.Add("FishingAreas", dbContext.FishingAreas.Count());
+
+      tableCount.Add("Charts", dbContext.Waterbodies.Count());
+
+      return View(tableCount);
+
+    }
+
+     
         
     }
 }
