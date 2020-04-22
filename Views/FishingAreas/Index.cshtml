@@ -1,0 +1,75 @@
+﻿@model FishingAreas
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+
+    <title>Assignment - 3</title>
+
+</head>
+
+<body>
+    <div class="header">
+        <h2>FISHING ACCESS AREAS  </h2>
+        <p>The table below provides public access to waters in Vermont for shore fishing opportunities and launching of water craft. The data was sourced from https://www.geodata.vermont.gov/.</p>
+    </div>
+
+
+
+
+
+    <table id="tblData">
+        <tr>
+            <th>WaterBody</th>
+            <th>Town</th>
+            <th>County</th>
+            <th>Owner</th>
+            <th>Manager</th>
+            <th>AccessType</th>
+            <th>BoatSize</th>
+            <th>RampType</th>
+            <th>UniversalAccess</th>
+        </tr>
+
+        @foreach (var fishingArea in Model.data)
+        {
+
+            <tr>
+                <td>@fishingArea.attributes.WaterBody</td>
+                <td>@fishingArea.attributes.Town</td>
+                <td>@fishingArea.attributes.County</td>
+                <td>@fishingArea.attributes.Owner</td>
+                <td>@fishingArea.attributes.Manager</td>
+                <td>@fishingArea.attributes.AccessType</td>
+                <td>@fishingArea.attributes.BoatSize</td>
+                <td>@fishingArea.attributes.RampType</td>
+                <td>@fishingArea.attributes.UniversalAccess</td>
+
+            </tr>
+        }
+
+    </table>
+</body>
+
+</html>
+
+@section Scripts{
+    <script>src="~/js/fishingArea.js"</script>
+
+}
