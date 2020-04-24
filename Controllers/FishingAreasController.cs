@@ -34,7 +34,7 @@ namespace ISM6225_Assignment4.Controllers
             return View(fishingAreas);
         }
 
-         public IActionResult Index(string? county)
+         public IActionResult SearchbyCounty(string? county)
         {
             APIHandler webHandler = new APIHandler();
             FishingAreas fishingAreas = webHandler.GetFishingAreas();
